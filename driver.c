@@ -5,8 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <CL/opencl.h>
 
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#else
+#include <CL/opencl.h>
+#endif
 
 /*
 	Some hard-coded constants. These need to be optimised.
@@ -51,6 +55,7 @@ cl_context context;
 cl_command_queue queue;
 cl_program program;
 cl_mem clPrimes, clSieve;
+cl_kernel kernel;
 
 
 void initOpenCL() {
@@ -132,11 +137,9 @@ void clSievePrimes(long long int begin, long long int end,
 							 sizeof(size_t), 
 							 &local, NULL);
 	//printf("max local workgroup size = %d\n", local);
-	printf("\n%lu\n", local);
+
 	local /= 32;
 	global = local * 32;
-	printf("\n%lu\n", local);
-	printf("\n%lu\n", global);
 
 	// Set the arguments to our kernel, and enqueue it for execution
 	clSetKernelArg(kernel, 0, sizeof(cl_mem), &clPrimes);
@@ -201,8 +204,7 @@ int main(int argc, char *argv[]) {
 			primesToRootN[primeCount++] = i;
 			primesToRootNmod30[primeCount] = i % 30;
 			if (primeCount == n) {
-				printf("%lldth prime is %lld\n", n, i);
-				return 0;
+				return i;
 			}
 		}
 	}
@@ -218,7 +220,7 @@ int main(int argc, char *argv[]) {
 		end = begin+blockSize;    // sieve blockSize at a time.
 
 		// Make the GPU do the sieving for us.
-		clSievePrimes(begin, end, sieve, blockSize);
+		clSievePrimes(begin, end, sieve);
 
 		for(i=0;i<blockSize;i++) {
 			if (sieve[i]) {
