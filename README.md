@@ -1,5 +1,11 @@
 # Parallel-PNG
-Parallelize the popular Sieve of Eratosthenes algorithm using a OpenCL. This is a college project.
+Parallelize the popular Sieve of Eratosthenes algorithm using a OpenCL.
+Use Prime numbers so generated in implementation of RSA
+
+Requirements:
+1) OpenCL (install separately)
+2) Numpy (pip install)
+3) Cython (pip install)
 
 Code for RSA is implemented in Cython.
 Instructions to build code and run:
