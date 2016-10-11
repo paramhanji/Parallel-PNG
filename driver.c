@@ -226,9 +226,14 @@ int main(int argc, char *argv[]) {
 				if (x < end) {
 					primeCount++;
 					if (primeCount == n) {
-						printf("%lldth prime is %lld\n", n, x);
+						//printf("%lldth prime is %lld\n", n, x);
 						//printf("%lld, %lld, %lld\n", begin, i, l);
-					return 0;
+						free(kernelSrc);
+						free(sieve);
+						free(maybePrime);
+						free(primesToRootN);
+						free(primesToRootNmod30);
+						return x;
 					}
 				}
 			}
