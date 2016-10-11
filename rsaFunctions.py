@@ -68,18 +68,3 @@ def decrypt(key, ciphertext):
 		decrypt.append(chr(pow(char, exponent, modulo)))
 	#print decrypt
 	return decrypt
-
-
-if __name__ == '__main__':
-	p = raw_input("Enter p : ")
-	q = raw_input("Enter q : ")
-	p=int(p)
-	q=int(q)
-	public, private = getKeyPair(p, q)
-	print "Public key : ", public ," Private key : ", private
-	msg = raw_input("Enter message : ")
-	encMsg = encrypt(public, msg)
-	print "Encrypted message : "
-	print encMsg
-	print "Decrypted Message :"
-	print decrypt(private, encMsg)
