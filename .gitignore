@@ -7,4 +7,5 @@ __pycache__/
 *.o
 
 encrypt.c
+decrypt.c
 generate_prime
