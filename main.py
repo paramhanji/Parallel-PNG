@@ -7,7 +7,7 @@ if __name__ == '__main__':
 	q = raw_input("Enter q : ")
 	p=int(p)
 	q=int(q)
-	LLI = (p*q)>(2**15-1) # Check if product of p,q is higher than long long int
+	LLI = (p*q)>(2**31-1) # Check if product of p,q is higher than long long int
 	print "Is long: ",LLI
 	public, private = rsaFunctions.getKeyPair(p, q)
 	print "Public key : ", public ," Private key : ", private

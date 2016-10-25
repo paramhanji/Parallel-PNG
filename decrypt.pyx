@@ -5,26 +5,26 @@ from cython.parallel import prange, parallel
 cimport openmp
 
 def decrypt(exp, mod, ciphertext):
-	cdef long[:] temp=np.asarray(ciphertext)
-	cdef int n=len(temp)
-	cdef int exponent=exp
-	cdef int modulo=mod
-	cdef int char
-	cdef int res
-	cdef int tempExponent
-	cdef int i
-	cdef long[:] plaintext=np.zeros(len(temp), dtype=long)
+	cdef long long[:] temp=np.asarray(ciphertext)
+	cdef unsigned long long n=len(temp)
+	cdef unsigned long long exponent=exp
+	cdef unsigned long long modulo=mod
+	cdef unsigned long long c=0
+	cdef unsigned long long res=0
+	cdef unsigned long long tempExponent=0
+	cdef unsigned long long i=0
+	cdef long long[:] plaintext=np.zeros(len(temp), dtype=long)
 	with nogil, parallel():
 		for i in prange(n):
-			char=temp[i]
+			c=temp[i]
 			tempExponent=exponent
 			res=1
-			char=char%modulo
+			c=c%modulo
 			while tempExponent>0:
 				if tempExponent&1:
-					res=(res*char)%modulo
+					res=(res*c)%modulo
 				tempExponent=tempExponent>>1
-				char=(char*char)%modulo
+				c=(c*c)%modulo
 			#print res
 			plaintext[i]=res
 	return plaintext

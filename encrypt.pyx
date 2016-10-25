@@ -6,25 +6,25 @@ cimport openmp
 
 def encrypt(exp, mod, plaintext):
 	cdef long[:] temp=np.asarray(plaintext)
-	cdef int n=len(temp)
-	cdef int exponent=exp
-	cdef int modulo=mod
-	cdef int char
-	cdef int res
-	cdef int tempExponent
-	cdef int i
-	cdef long[:] cipher=np.zeros(len(temp), dtype=long)
+	cdef unsigned long long n=len(temp)
+	cdef unsigned long long exponent=exp
+	cdef unsigned long long modulo=mod
+	cdef unsigned long long c
+	cdef unsigned long long res=0
+	cdef unsigned long long tempExponent=0
+	cdef unsigned long int i=0
+	cdef long long[:] cipher=np.zeros(len(temp), dtype=long)
 	with nogil, parallel():
 		for i in prange(n):
-			char=temp[i]
+			c=temp[i]
 			tempExponent=exponent
 			res=1
-			char=char%modulo
+			c=c%modulo
 			while tempExponent>0:
 				if tempExponent&1:
-					res=(res*char)%modulo
+					res=(res*c)%modulo
 				tempExponent=tempExponent>>1
-				char=(char*char)%modulo
+				c=(c*c)%modulo
 			#print res
 			cipher[i]=res
 	return cipher
