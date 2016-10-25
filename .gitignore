@@ -3,3 +3,4 @@ build/
 *.py[ocd]
 decrypt.c
 encrypt.c
+a.out
