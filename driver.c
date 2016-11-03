@@ -91,7 +91,7 @@ cl_mem clPrimes, clSieve; // these are memory objects, for dealing with
 
 void initOpenCL() {
   // read in the kernel file...
-  char fileName[] = "primesKernel.c";
+  char fileName[] = "primesKernel.cl";
   if (!loadKernel(fileName)) {
     printf("Unable to load kernel file.\n");
     return;
@@ -254,7 +254,7 @@ int main(int argc, char *argv[]) {
       primesToRootN[primeCount++] = i;
       primesToRootNmod30[primeCount] = i % 30;
       if (primeCount == n) {
-	printf("%lldth prime is %lld\n", n, i);
+	printf("%lld\n", i);
 	return 0;
       }
     }
@@ -289,8 +289,7 @@ int main(int argc, char *argv[]) {
 	if (x < end) {
 	  primeCount++;
 	  if (primeCount == n) {
-	    printf("%lldth prime is %lld\n", n, x);
-	    //printf("%lld, %lld, %lld\n", begin, i, l);
+	    printf("%lld\n", x);
 	    return 0;
 	  }
 	}

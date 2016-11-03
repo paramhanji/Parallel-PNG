@@ -2,11 +2,23 @@ import rsaFunctions
 from encrypt import encrypt
 from decrypt import decrypt
 
+from random import randint
+import subprocess as sp
+
+_LIMIT = 10000000
 if __name__ == '__main__':
-	p = raw_input("Enter p : ")
-	q = raw_input("Enter q : ")
-	p=int(p)
-	q=int(q)
+	p = randint(1000, _LIMIT)
+	q = randint(1000, _LIMIT)
+	
+	cmd_p = r'./a.out ' + str(p)
+	cmd_q = r'./a.out ' + str(q)
+	output_p = sp.check_output(cmd_p, shell=True)
+	output_q = sp.check_output(cmd_q, shell=True)
+	
+	p = int(output_p)
+	q = int(output_q)
+	
+
 	LLI = (p*q)>(2**31-1) # Check if product of p,q is higher than long long int
 	print "Is long: ",LLI
 	public, private = rsaFunctions.getKeyPair(p, q)
